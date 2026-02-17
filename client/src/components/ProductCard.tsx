@@ -42,7 +42,7 @@ function getPlaceholderColor(id: string): string {
   for (let i = 0; i < id.length; i++) {
     hash = id.charCodeAt(i) + ((hash << 5) - hash);
   }
-  return placeholderColors[Math.abs(hash) % placeholderColors.length];
+  return placeholderColors[Math.abs(hash) % placeholderColors.length] ?? "bg-purple-400";
 }
 
 export default function ProductCard({ product }: ProductCardProps) {

@@ -8,7 +8,6 @@ import {
   ClipboardDocumentListIcon,
   UsersIcon,
   ChartBarIcon,
-  ArrowLeftIcon,
 } from "@heroicons/react/24/outline";
 import { useAuth } from "@/hooks/useAuth";
 import { Transition } from "@headlessui/react";

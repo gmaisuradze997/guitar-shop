@@ -86,7 +86,7 @@ function MiniBarChart({
           "Jan", "Feb", "Mar", "Apr", "May", "Jun",
           "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
         ];
-        const label = monthNames[parseInt(monthLabel) - 1] ?? monthLabel;
+        const label = monthNames[parseInt(monthLabel ?? "0") - 1] ?? monthLabel ?? "";
 
         return (
           <div key={d.month} className="flex flex-1 flex-col items-center gap-1">
