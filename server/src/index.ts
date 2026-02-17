@@ -5,7 +5,6 @@ import compression from "compression";
 import rateLimit from "express-rate-limit";
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
-import path from "path";
 import productRoutes from "./routes/product.routes";
 import authRoutes from "./routes/auth.routes";
 import cartRoutes from "./routes/cart.routes";
@@ -33,15 +32,20 @@ const PORT = process.env.PORT || 3000;
 const isProduction = process.env.NODE_ENV === "production";
 
 // ---------------------------------------------------------------------------
+// Trust proxy (required for Render, Railway, etc. behind reverse proxies)
+// ---------------------------------------------------------------------------
+if (isProduction) {
+  app.set("trust proxy", 1);
+}
+
+// ---------------------------------------------------------------------------
 // Security middleware
 // ---------------------------------------------------------------------------
 
 // HTTP security headers
 app.use(
   helmet({
-    contentSecurityPolicy: isProduction
-      ? undefined
-      : false,
+    contentSecurityPolicy: isProduction ? undefined : false,
     crossOriginEmbedderPolicy: false,
   })
 );
@@ -57,10 +61,12 @@ const allowedOrigins = (process.env.CLIENT_URL || "http://localhost:5173")
 app.use(
   cors({
     origin: (origin, callback) => {
+      // Allow requests with no origin (mobile apps, curl, health checks)
       if (!origin || allowedOrigins.includes(origin)) {
         callback(null, true);
       } else {
-        callback(new Error("Not allowed by CORS"));
+        console.warn(`CORS blocked origin: ${origin}`);
+        callback(null, false);
       }
     },
     credentials: true,
@@ -96,7 +102,7 @@ const authLimiter = rateLimit({
 app.use("/api", generalLimiter);
 
 // ---------------------------------------------------------------------------
-// Health check (outside rate limiter)
+// Health check
 // ---------------------------------------------------------------------------
 app.get("/api/health", (_req, res) => {
   res.json({
@@ -117,17 +123,6 @@ app.use("/api/orders", orderRoutes);
 app.use("/api/reviews", reviewRoutes);
 app.use("/api/wishlist", wishlistRoutes);
 app.use("/api/admin", adminRoutes);
-
-// ---------------------------------------------------------------------------
-// Serve static frontend in production
-// ---------------------------------------------------------------------------
-if (isProduction) {
-  const clientDist = path.join(__dirname, "../../client/dist");
-  app.use(express.static(clientDist));
-  app.get("*", (_req, res) => {
-    res.sendFile(path.join(clientDist, "index.html"));
-  });
-}
 
 // ---------------------------------------------------------------------------
 // Error handling
