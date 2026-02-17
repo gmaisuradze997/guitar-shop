@@ -1,0 +1,477 @@
+@import "tailwindcss";
+
+/* ─── Google Fonts ─────────────────────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600;700&display=swap');
+
+/* ─── Design Tokens ────────────────────────────────────────────────────────── */
+@theme {
+  /* Neo-Brutalist Color Palette */
+  --color-cream: #FFF8E7;
+  --color-cream-dark: #F5EDDA;
+  --color-ink: #0A0A0A;
+  --color-ink-light: #1A1A1A;
+
+  /* Primary: Hot Orange */
+  --color-primary-50: #FFF3E0;
+  --color-primary-100: #FFE0B2;
+  --color-primary-200: #FFCC80;
+  --color-primary-300: #FFB74D;
+  --color-primary-400: #FFA726;
+  --color-primary-500: #FF5722;
+  --color-primary-600: #F4511E;
+  --color-primary-700: #E64A19;
+  --color-primary-800: #D84315;
+  --color-primary-900: #BF360C;
+  --color-primary-950: #870000;
+
+  /* Accent: Electric Lime */
+  --color-accent-50: #F9FBE7;
+  --color-accent-100: #F0F4C3;
+  --color-accent-200: #E6EE9C;
+  --color-accent-300: #DCE775;
+  --color-accent-400: #D4E157;
+  --color-accent-500: #BAFF29;
+  --color-accent-600: #A8E600;
+  --color-accent-700: #8BC34A;
+  --color-accent-800: #689F38;
+  --color-accent-900: #33691E;
+  --color-accent-950: #1B5E20;
+
+  /* Signal: Electric Blue */
+  --color-signal-50: #E3F2FD;
+  --color-signal-100: #BBDEFB;
+  --color-signal-200: #90CAF9;
+  --color-signal-300: #64B5F6;
+  --color-signal-400: #42A5F5;
+  --color-signal-500: #2979FF;
+  --color-signal-600: #2962FF;
+  --color-signal-700: #1565C0;
+  --color-signal-800: #0D47A1;
+  --color-signal-900: #0A2472;
+  --color-signal-950: #051B4A;
+
+  /* Fonts */
+  --font-display: "Space Grotesk", system-ui, sans-serif;
+  --font-mono: "Space Mono", "JetBrains Mono", monospace;
+  --font-body: "Inter", system-ui, sans-serif;
+
+  /* Custom Shadows - Hard offset, no blur */
+  --shadow-brutal: 4px 4px 0px 0px #0A0A0A;
+  --shadow-brutal-lg: 8px 8px 0px 0px #0A0A0A;
+  --shadow-brutal-sm: 2px 2px 0px 0px #0A0A0A;
+  --shadow-brutal-primary: 4px 4px 0px 0px #FF5722;
+  --shadow-brutal-accent: 4px 4px 0px 0px #BAFF29;
+
+  /* Animation keyframes as custom properties for reference */
+  --animate-marquee: marquee 25s linear infinite;
+  --animate-marquee-reverse: marquee-reverse 25s linear infinite;
+  --animate-glitch: glitch 3s infinite;
+  --animate-lift: lift 0.2s ease-out forwards;
+}
+
+/* ─── Base Styles ──────────────────────────────────────────────────────────── */
+
+body {
+  @apply text-ink antialiased;
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
+  background-color: #FFF8E7;
+}
+
+/* ─── Selection ────────────────────────────────────────────────────────────── */
+::selection {
+  background-color: #BAFF29;
+  color: #0A0A0A;
+}
+
+/* ─── Scrollbar (Webkit) ───────────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #FFF8E7;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #0A0A0A;
+  border: 2px solid #FFF8E7;
+}
+
+/* ─── Keyframe Animations ──────────────────────────────────────────────────── */
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes marquee-reverse {
+  0% {
+    transform: translateX(-50%);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes glitch {
+
+  0%,
+  100% {
+    transform: translate(0);
+  }
+
+  2% {
+    transform: translate(-2px, 1px);
+  }
+
+  4% {
+    transform: translate(2px, -1px);
+  }
+
+  6% {
+    transform: translate(-1px, -1px);
+  }
+
+  8% {
+    transform: translate(1px, 2px);
+  }
+
+  10% {
+    transform: translate(0);
+  }
+}
+
+@keyframes glitch-skew {
+
+  0%,
+  100% {
+    transform: skew(0deg);
+  }
+
+  2% {
+    transform: skew(2deg);
+  }
+
+  4% {
+    transform: skew(-1deg);
+  }
+
+  6% {
+    transform: skew(3deg);
+  }
+
+  8% {
+    transform: skew(-2deg);
+  }
+
+  10% {
+    transform: skew(0deg);
+  }
+}
+
+@keyframes brutal-shake {
+
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+
+  25% {
+    transform: translate(-2px, 1px) rotate(-1deg);
+  }
+
+  50% {
+    transform: translate(1px, -1px) rotate(1deg);
+  }
+
+  75% {
+    transform: translate(-1px, 2px) rotate(-1deg);
+  }
+}
+
+@keyframes stagger-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes noise {
+
+  0%,
+  100% {
+    background-position: 0 0;
+  }
+
+  10% {
+    background-position: -5% -10%;
+  }
+
+  20% {
+    background-position: -15% 5%;
+  }
+
+  30% {
+    background-position: 7% -25%;
+  }
+
+  40% {
+    background-position: 20% 25%;
+  }
+
+  50% {
+    background-position: -25% 10%;
+  }
+
+  60% {
+    background-position: 15% 5%;
+  }
+
+  70% {
+    background-position: 0% 15%;
+  }
+
+  80% {
+    background-position: 25% 35%;
+  }
+
+  90% {
+    background-position: -10% 10%;
+  }
+}
+
+@keyframes flicker {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.95;
+  }
+
+  52% {
+    opacity: 0.85;
+  }
+
+  54% {
+    opacity: 1;
+  }
+}
+
+@keyframes press-down {
+  0% {
+    transform: translate(0, 0);
+    box-shadow: 4px 4px 0px 0px #0A0A0A;
+  }
+
+  100% {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0px 0px #0A0A0A;
+  }
+}
+
+@keyframes underline-sweep {
+  from {
+    transform: scaleX(0);
+  }
+
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* ─── Utility Classes ──────────────────────────────────────────────────────── */
+
+/* Marquee */
+.animate-marquee {
+  animation: marquee 25s linear infinite;
+}
+
+.animate-marquee-reverse {
+  animation: marquee-reverse 25s linear infinite;
+}
+
+/* Glitch text effect */
+.glitch-text {
+  position: relative;
+  animation: glitch 3s infinite;
+}
+
+.glitch-text::before,
+.glitch-text::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.glitch-text::before {
+  color: #FF5722;
+  animation: glitch 2s infinite reverse;
+  clip-path: polygon(0 0, 100% 0, 100% 35%, 0 35%);
+  transform: translate(-2px, -1px);
+}
+
+.glitch-text::after {
+  color: #2979FF;
+  animation: glitch 2.5s infinite;
+  clip-path: polygon(0 65%, 100% 65%, 100% 100%, 0 100%);
+  transform: translate(2px, 1px);
+}
+
+/* Stagger entrance */
+.stagger-item {
+  opacity: 0;
+  animation: stagger-in 0.4s ease-out forwards;
+}
+
+/* Brutal card hover */
+.brutal-card {
+  border: 3px solid #0A0A0A;
+  box-shadow: 4px 4px 0px 0px #0A0A0A;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.brutal-card:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 8px 8px 0px 0px #0A0A0A;
+}
+
+.brutal-card:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0px 0px #0A0A0A;
+}
+
+/* Brutal button */
+.brutal-btn {
+  border: 3px solid #0A0A0A;
+  box-shadow: 4px 4px 0px 0px #0A0A0A;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+  font-family: "Space Grotesk", system-ui, sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.brutal-btn:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px 0px #0A0A0A;
+}
+
+.brutal-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0px 0px #0A0A0A;
+}
+
+.brutal-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: 4px 4px 0px 0px #0A0A0A;
+}
+
+/* Brutal input */
+.brutal-input {
+  border: 3px solid #0A0A0A;
+  background: white;
+  font-family: "Inter", system-ui, sans-serif;
+  transition: box-shadow 0.1s ease;
+}
+
+.brutal-input:focus {
+  outline: none;
+  box-shadow: 4px 4px 0px 0px #FF5722;
+}
+
+.brutal-input::placeholder {
+  color: #999;
+  font-style: italic;
+}
+
+/* Link underline sweep animation */
+.brutal-link {
+  position: relative;
+  text-decoration: none;
+  font-family: "Space Grotesk", system-ui, sans-serif;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.brutal-link::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: #FF5722;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.2s ease;
+}
+
+.brutal-link:hover::after {
+  transform: scaleX(1);
+}
+
+/* Noise overlay */
+.noise-overlay::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+  animation: noise 0.5s steps(8) infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Badge */
+.brutal-badge {
+  border: 2px solid #0A0A0A;
+  font-family: "Space Mono", monospace;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.75rem;
+  padding: 0.125rem 0.5rem;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+
+  .animate-marquee,
+  .animate-marquee-reverse,
+  .glitch-text,
+  .glitch-text::before,
+  .glitch-text::after,
+  .stagger-item {
+    animation: none !important;
+  }
+
+  .stagger-item {
+    opacity: 1 !important;
+  }
+
+  .brutal-card,
+  .brutal-btn {
+    transition: none !important;
+  }
+}
